@@ -1,6 +1,6 @@
 # Card Game Meeting
 
-## こちらのリンクからアクセスできます！
+## こちらのリンクからアクセスできます。是非試してください！
 
 https://vps4.nkmr.io/card-meet/
 
@@ -25,9 +25,7 @@ https://youtu.be/MF0oLgMDnJ4
 - バックエンド:FastAPI/Python
 - データベース:Firebase, Mysql/Server Sent Events
 
-## 是非試してください！
 
-
-現在確認されているバグ
+### 現在確認されているバグ
 - firefoxで退出処理が発火しない
   - イベントリスナが機能していない様子
