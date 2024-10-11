@@ -1,10 +1,12 @@
-# Debate Vizualization System
+# Card Game Meeting
 
 ## こちらのリンクからアクセスできます！
 
+https://vps4.nkmr.io/card-meet/
+
 ## デモ動画
 
-[![DebateVizSystem_Youtube_Link](https://github.com/user-attachments/assets/06283ef3-4071-4a8b-96ef-449d2e996478)](https://youtu.be/ybbw3yxqi90)
+https://youtu.be/MF0oLgMDnJ4
 
 ## 概要
 
@@ -26,9 +28,6 @@
 ## 是非試してください！
 
 
-
-こちらで公開しています
-https://vps4.nkmr.io/card-meet/
-
 現在確認されているバグ
 - firefoxで退出処理が発火しない
+  - イベントリスナが機能していない様子
