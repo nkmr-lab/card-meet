@@ -34,9 +34,9 @@ https://youtu.be/MF0oLgMDnJ4
 ## 技術
 - コンテナ:Docker
 - フロントエンド:Next.js/TypeScript, Tailwind css
-- 音声映像通信:Skyway SDK
 - バックエンド:FastAPI/Python
-- データベース:Firebase, Mysql/Server Sent Events
+- 音声映像通信:Skyway SDK
+- データベース・リアルタイムデータ通信:Firebase, Mysql/Server Sent Events
 
 
 ### 現在確認されているバグ
