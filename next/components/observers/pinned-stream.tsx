@@ -14,9 +14,9 @@ function PinnedStream() {
           return <Fragment></Fragment>;
         }
 
-        const pipStyle = {
+        const pipStyle: React.CSSProperties = {
           position: "fixed",
-          top: "0",
+          top: "100px",
           width: "70%",
           left: "50%",
           transform: "translateX(-50%)",
