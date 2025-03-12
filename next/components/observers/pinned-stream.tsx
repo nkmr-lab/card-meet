@@ -16,7 +16,7 @@ function PinnedStream() {
 
         const pipStyle = {
           position: "fixed",
-          top: "100",
+          top: "0",
           width: "70%",
           left: "50%",
           transform: "translateX(-50%)",
