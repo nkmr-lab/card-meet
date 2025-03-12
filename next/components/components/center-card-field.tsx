@@ -6,7 +6,7 @@ interface Props {
 
 function CenterField({ children }: Props) {
   return (
-    <div className="absolute top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+    <div className="absolute top-[60%] left-0 bottom-0 right-0 flex items-center justify-center">
       <div>{children}</div>
     </div>
   );

@@ -14,14 +14,14 @@ const Card = ({ id, content, state, channelId, myMemberId, disabled }: any) => {
                 "Content-Type": "application",
             }
         });
+        console.log(myMemberId);
     };
 
     return (
         <div 
-            className="border border-gray-300 rounded-lg shadow-lg overflow-hidden my-4 w-48 h-32 transform transition-transform duration-200 hover:scale-105 active:scale-95 flex items-center justify-center"
+            className="border border-gray-300 rounded-lg bg-gray-100 shadow-lg overflow-hidden my-4 w-48 h-32 transform transition-transform duration-200 hover:scale-105 active:scale-95 flex items-center justify-center"
             onClick={handleClick}
             style={{
-                backgroundColor: '#ffffff',
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
                 cursor: 'pointer'
             }}
