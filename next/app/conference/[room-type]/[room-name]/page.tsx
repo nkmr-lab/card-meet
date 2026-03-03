@@ -1,7 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
-const Bootstrap = dynamic(() => import("../../../../components/observers/bootstrap"), { ssr: false });
+import Bootstrap from "../../../../components/observers/bootstrap";
 import Settings from "../../../../components/observers/settings";
 import Notification from "../../../../components/observers/notification";
 import { StatsOpener, Stats } from "../../../../components/observers/stats";
