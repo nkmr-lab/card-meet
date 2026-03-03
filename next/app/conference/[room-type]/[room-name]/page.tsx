@@ -34,11 +34,10 @@ import { initializeFirebaseApp } from "../../../../components/utils/firebase";
 const log = debug("main");
 
 const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": string } }> = ({ params }) => {
-    initializeFirebaseApp();
-
     const { "room-type": roomType, "room-name": roomName } = params;
 
     useEffect(() => {
+        initializeFirebaseApp();
         log(`${packageInfo.name} v${packageInfo.version}`);
         document.title += ` v${packageInfo.version}`;
     }, []);
