@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { API_URL_prefix } from "../utils/api";
 import { IconButton } from "../../components/components/icon";
 import { StoreContext } from '../conference/contexts';
 
@@ -7,7 +8,6 @@ const CardControlCenter = () => {
 
     const handleDealCards = async () => {
         console.log('Cards dealt:' + context.room.id);
-        const API_URL_prefix = process.env.NODE_ENV === "development" ? "http://localhost:7771" : "https://vps4.nkmr.io/card-meet/v1";
         const dealCards = await fetch(API_URL_prefix + "/cards/deal-all/" + context.room.id, {
             method: "GET",
             headers: {

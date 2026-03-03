@@ -1,4 +1,5 @@
 import { makeObservable, observable, computed, action } from "mobx";
+import { API_URL_prefix } from "../utils/api";
 import { RoomInit, RoomStat } from "../utils/types";
 import {
   P2PRoom,
@@ -106,8 +107,6 @@ class RoomStore {
       if (this.room && this.member) {
         // console.log("MEMBER ID2" + JSON.stringify(this.member.id));
 
-        const API_URL_prefix = process.env.NODE_ENV === "development" ? "http://localhost:7771" : "https://vps4.nkmr.io/card-meet/v1";
-
         const findOrCreateRoom = await fetch(API_URL_prefix + "/rooms/" + this.member.roomName, {
           method: "GET",
           headers: {
@@ -140,7 +139,6 @@ class RoomStore {
       console.log('A member has left the room');
 
       if (this.room !== null && this.member !== null) {
-        const API_URL_prefix = process.env.NODE_ENV === "development" ? "http://localhost:7771" : "https://vps4.nkmr.io/card-meet/v1";
         try {
           const response = await fetch(API_URL_prefix + "/rooms/" + this.member.roomName + "/" + this.member.id, {
             method: "DELETE",

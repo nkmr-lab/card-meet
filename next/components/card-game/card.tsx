@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_URL_prefix } from "../utils/api";
 
 const Card = ({ id, content, state, channelId, myMemberId, disabled }: any) => {
     const handleClick = async () => {
@@ -7,7 +8,6 @@ const Card = ({ id, content, state, channelId, myMemberId, disabled }: any) => {
         }
         console.log(`Card clicked: ${id}`);
         // 他の処理をここに追加
-        const API_URL_prefix = process.env.NODE_ENV === "development" ? "http://localhost:7771" : "https://vps4.nkmr.io/card-meet/v1";
         const submitCard = await fetch(API_URL_prefix + "/cards/submit/" + channelId + "/" + id, {
             method: "GET",
             headers: {

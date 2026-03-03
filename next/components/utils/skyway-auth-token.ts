@@ -1,3 +1,5 @@
+import { API_URL_prefix } from "./api";
+
 const RETRY_NUM = 5;
 
 const sleep = (ms: number) => {
@@ -14,13 +16,10 @@ export const getToken = async (
 ): Promise<string> => {
   // if (process.env.AUTH_TOKEN_SERVER === "")
   //   throw new Error("AuthTokenServer is not setting.");
-  const API_URL = process.env.NODE_ENV === "development" ? "http://localhost:7771/auth" : "https://vps4.nkmr.io/card-meet/v1/auth";
-  console.log(API_URL);
+  console.log(API_URL_prefix + "/auth");
 
   for (let i = 0; i < RETRY_NUM; i++) {
-    // const response = await fetch(`${process.env.AUTH_TOKEN_SERVER}`, {
-    // const response = await fetch("https://vps4.nkmr.io/v1/auth", { 
-    const response = await fetch(API_URL, { //towards nodejs server
+    const response = await fetch(API_URL_prefix + "/auth", { //towards nodejs server
       method: "GET",
       headers: {
         "Content-Type": "application/json",

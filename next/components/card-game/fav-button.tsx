@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { API_URL_prefix } from "../utils/api";
 import { getDatabase, onValue, ref } from '@firebase/database';
 import { StoreContext } from '../conference/contexts';
 import { FirebaseError } from '@firebase/util';
@@ -59,7 +60,6 @@ function FavButton({ channelId }: { channelId: string }) {
       setShowFavAnim(false);
     }, 1200);
 
-    const API_URL_prefix = process.env.NODE_ENV === "development" ? "http://localhost:7771" : "https://vps4.nkmr.io/card-meet/v1";
     try {
       const response = await fetch(API_URL_prefix + "/rooms/" + channelId + "/" + myMemberId + "/fav_num", {
         method: "POST",
