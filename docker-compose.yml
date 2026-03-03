@@ -25,43 +25,13 @@ services:
     ports:
       - "7771:8080"
     restart: always  # 自動再起動の設定
-    # depends_on:
-    #   - db
     networks:
       - cm_fb--network
     environment:
       PYTHONPATH: /app
 
-  # db: #ユーザ名：root, パスワード：なし
-  #   container_name: db
-  #   build:
-  #     context: ./mysql
-  #     dockerfile: Dockerfile.dev
-  #   tty: true
-  #   ports:
-  #     - "3306:3306"
-  #   env_file:
-  #     - ./mysql/.env #FastAPIから接続させるため，コメントアウト
-  #   # environment:
-  #   #   MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-  #   #   MYSQL_DATABASE: "demo"
-  #   #   TZ: "Asia/Tokyo"
-  #   volumes:
-  #     - mysql_data:/var/lib/mysql
-  #   networks:
-  #     - docker_network
-
-  # phpmyadmin:
-  #   container_name: phpmyadmin
-  #   image: phpmyadmin:latest
-  #   ports:
-  #     - "8081:80"
-  #   networks:
-  #     - docker_network
-
 volumes:
   node_modules:
-  # mysql_data:
 
 networks:
   cm_fb--network:
