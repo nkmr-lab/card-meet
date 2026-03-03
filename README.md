@@ -36,7 +36,7 @@ https://youtu.be/MF0oLgMDnJ4
 - フロントエンド:Next.js/TypeScript, Tailwind css
 - バックエンド:FastAPI/Python
 - 音声映像通信:Skyway SDK
-- データベース・リアルタイムデータ通信:Firebase, Mysql/Server Sent Events
+- データベース・リアルタイムデータ通信:Firebase Realtime Database
 
 
 ### 現在確認されているバグ
