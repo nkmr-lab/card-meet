@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { API_URL_prefix } from "../utils/api";
 import { getDatabase, onValue, ref } from '@firebase/database';
+import { getApp, getApps, initializeApp } from 'firebase/app';
 import { StoreContext } from '../conference/contexts';
 import { FirebaseError } from '@firebase/util';
 import FavAnim from "./fav-anim";
@@ -18,38 +19,32 @@ function FavButton({ channelId }: { channelId: string }) {
   const [showFavAnim, setShowFavAnim] = useState(false);
 
   useEffect(() => {
+    let unsubDb: (() => void) | undefined
     try {
-      const db = getDatabase();
+      if (!getApps().length) initializeApp({ databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL })
+      const db = getDatabase(getApp(), process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL!);
       const dbRef = ref(db, `/${channelId}/members`);
-      return onValue(dbRef, (snapshot: any) => {
+      unsubDb = onValue(dbRef, (snapshot: any) => {
         const memberDatas = snapshot.val();
-        if (!memberDatas) {
-          return;
-        }
-        let favSum = 0;
+        if (!memberDatas) return;
+        let sum = 0;
         const membersArray = Object.values(memberDatas) as MemberData[];
         for (let i = 0; i < membersArray.length; i++) {
-          favSum += membersArray[i].fav_num;
+          sum += membersArray[i].fav_num;
         }
-        setFavSum(favSum);
+        setFavSum(sum);
+      }, (error) => {
+        console.error('Firebase members error:', error)
       });
     } catch (e) {
-      if (e instanceof FirebaseError) {
-        console.error(e);
-      }
+      console.error('Firebase setup error:', e)
     }
+    return () => { if (unsubDb) unsubDb() }
   }, [channelId]);
 
-
   useEffect(() => {
-    const db = getDatabase();
-    const dbRef = ref(db, `/${channelId}`);
-    const unsubscribe = onValue(dbRef, (snapshot: any) => {
-      setMyMemberId(context?.room?.member?.id ?? ""); // デフォルト値を設定
-    });
-
-    return () => unsubscribe();
-  }, [channelId, context?.room?.member?.id]);
+    setMyMemberId(context?.room?.member?.id ?? "");
+  }, [context?.room?.member?.id]);
 
   const handleClick = async () => {
     const newFavNum = favNum + 1;
@@ -60,6 +55,8 @@ function FavButton({ channelId }: { channelId: string }) {
       setShowFavAnim(false);
     }, 1200);
 
+    if (!myMemberId) return;
+
     try {
       const response = await fetch(API_URL_prefix + "/rooms/" + channelId + "/" + myMemberId + "/fav_num", {
         method: "POST",
@@ -67,7 +64,7 @@ function FavButton({ channelId }: { channelId: string }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "fav_num": newFavNum, //連打すると一旦値が不正確になることはあるけど、まぁ許容範囲かな〜それだけのためにリアルタイムにするのも変だし
+          "fav_num": newFavNum,
         })
       });
     } catch (error) {
@@ -87,7 +84,6 @@ function FavButton({ channelId }: { channelId: string }) {
           onClick={handleClick}
           className="flex justify-center items-center border-2 border-blue-300 bg-blue-300 text-blue-800 font-bold py-2 px-4 mt-4 rounded hover:border-blue-500 hover:bg-blue-500 hover:text-white"
         >
-          {/* {favNum} 自分が何回いいねしてるか直接見えない方がデザインとしていいかも？？ 勘だけど */}
           いいね👍
         </button>
       )}

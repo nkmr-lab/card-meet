@@ -1,30 +1,29 @@
 import Card from "./card";
-// import { getApp } from "firebase/app";
 import { useEffect, useState, useContext } from 'react'
 import { getDatabase, onValue, ref } from '@firebase/database'
 import { FirebaseError } from '@firebase/util'
+import { getApp, getApps, initializeApp } from 'firebase/app'
 
 import LeftBottom from "../components/left-bottom";
-// import CenterTop from "../components/center-top";
 import CenterField from "../components/center-card-field";
 
 import { StoreContext } from '../conference/contexts';
 
 const Cards = ({ channelId }: { channelId: string }) => {
-    // console.log("Firebase Connected"+JSON.stringify(getApp())); //firebaseが接続されているか確認
-
     const context = useContext(StoreContext);
     const [cards, setCards] = useState<{ id: number, state: string, content: string }[]>([]);
     const [myMemberId, setMyMemberId] = useState<string>("");
+
     useEffect(() => {
+        let unsubDb: (() => void) | undefined
         try {
-            const db = getDatabase()
+            if (!getApps().length) initializeApp({ databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL })
+            const db = getDatabase(getApp(), process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL!)
             const dbRef = ref(db, `/${channelId}/cards`)
-            return onValue(dbRef, (snapshot: any) => {
+            unsubDb = onValue(dbRef, (snapshot: any) => {
                 const cardDatas = snapshot.val()
-                if (!cardDatas) {
-                    return
-                }
+                console.log('Firebase cards snapshot:', cardDatas)
+                if (!cardDatas) return
                 const filteredCardDatas = []
                 for (let i = 0; i < cardDatas.length; i++) {
                     if (cardDatas[i]) {
@@ -32,24 +31,18 @@ const Cards = ({ channelId }: { channelId: string }) => {
                     }
                 }
                 setCards(filteredCardDatas)
+            }, (error) => {
+                console.error('Firebase cards error:', error)
             })
         } catch (e) {
-            if (e instanceof FirebaseError) {
-                console.error(e)
-            }
-            return
+            console.error('Firebase setup error:', e)
         }
-    }, [])
+        return () => { if (unsubDb) unsubDb() }
+    }, [channelId])
 
     useEffect(() => {
-        const db = getDatabase();
-        const dbRef = ref(db, `/${channelId}/members`);
-        const unsubscribe = onValue(dbRef, (snapshot: any) => {
-            setMyMemberId(context?.room?.member?.id ?? ""); // デフォルト値を設定
-        });
-
-        return () => unsubscribe();
-    }, [channelId, context?.room?.member?.id]);
+        setMyMemberId(context?.room?.member?.id ?? "");
+    }, [context?.room?.member?.id]);
 
     return (
         <>

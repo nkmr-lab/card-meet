@@ -27,16 +27,12 @@ import CardControlCenter from "../../../../components/card-game/card-control-cen
 import FavButton from "../../../../components/card-game/fav-button";
 
 
-import { initializeFirebaseApp } from "../../../../components/utils/firebase";
-
-
 const log = debug("main");
 
 const ConferencePage: React.FC<{ params: { "room-type": string; "room-name": string } }> = ({ params }) => {
     const { "room-type": roomType, "room-name": roomName } = params;
 
     useEffect(() => {
-        initializeFirebaseApp();
         log(`${packageInfo.name} v${packageInfo.version}`);
         document.title += ` v${packageInfo.version}`;
     }, []);

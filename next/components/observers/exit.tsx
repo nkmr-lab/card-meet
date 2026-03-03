@@ -6,6 +6,7 @@ import { exitRoom } from "../effects/exit";
 import { StoreContext } from '../conference/contexts';
 import { useEffect, useState, useContext } from 'react';
 import { getDatabase, ref, onValue } from '@firebase/database';
+import { getApp, getApps, initializeApp } from 'firebase/app';
 
 export function ExitOpener({ channelId }: { channelId: string }) {
   const context = useContext(StoreContext);
@@ -13,7 +14,8 @@ export function ExitOpener({ channelId }: { channelId: string }) {
   const [myMemberId, setMyMemberId] = useState<string>("");
 
   useEffect(() => {
-    const db = getDatabase();
+    if (!getApps().length) initializeApp({ databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL })
+    const db = getDatabase(getApp(), process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL!);
     const dbRef = ref(db, `/${channelId}`);
     const unsubscribe = onValue(dbRef, (snapshot:any) => {
       setMyMemberId(context?.room?.member?.id ?? ""); // デフォルト値を設定
